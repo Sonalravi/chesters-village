@@ -1,0 +1,6 @@
+<!-- Chester silhouette placeholder: adult dog, sitting pose, line drawing -->
+<!-- Replace this file with the real hand-drawn SVG asset -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#2B2019" stroke-width="2">
+  <circle cx="50" cy="50" r="40" stroke-dasharray="4 2" opacity="0.3"/>
+  <text x="50" y="54" text-anchor="middle" font-size="10" fill="#6B5D50" stroke="none" font-family="serif">Chester</text>
+</svg>
