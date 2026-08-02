@@ -15,5 +15,6 @@ export const pups: Pup[] = [
   { name: "Toffee", image: "/images/pups/toffee.jpg", caption: "Sweetest in the pack" },
   { name: "Toto", image: "/images/pups/toto.JPG", caption: "Always first to arrive" },
   { name: "Whiskey", image: "/images/pups/whiskey.JPG", caption: "Chaotic good" },
+  { name: "Snowflake", image: "/images/pups/snowflake.jpg", caption: "Pure of heart" },
   { name: "Yuki", image: "/images/pups/yuki.JPG", caption: "Deeply unbothered" },
 ];
