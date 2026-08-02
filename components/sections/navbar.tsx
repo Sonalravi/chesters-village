@@ -6,6 +6,7 @@ import { site } from "@/content/site";
 
 const navLinks = [
   { label: "Home", href: "/" },
+  { label: "About us", href: "/about" },
   { label: "The Village", href: "/village" },
   { label: "Chester", href: "/chester" },
 ];
