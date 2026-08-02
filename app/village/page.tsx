@@ -1,122 +1,34 @@
 // /village — The Village page
-// Section 1: Join us on WhatsApp (honey-tint bg)
-// Section 2: How we gather — four meetup cards (teal-tint bg)
-// Section 3: Meet our pups — pup grid (cream bg), names in Caveat
+// Section 1 (id="pups"):      Meet our pups — alphabetized grid
+// Section 2 (id="events"):    Events so far — four meetup cards
+// Section 3 (id="community"): How the village shows up — story cards
+// Slim WhatsApp banner at bottom
 
 import Image from "next/image";
 import { site } from "@/content/site";
 import { pups } from "@/content/pups";
+import { communityStories } from "@/content/community";
 import FadeIn from "@/components/ui/fade-in";
 import PawPrint from "@/components/ui/paw-print";
 
 const placeholderTints = [
-  "bg-honey/15",
-  "bg-teal/15",
-  "bg-lavender/20",
-  "bg-olive/15",
-  "bg-honey/20",
-  "bg-teal/10",
-  "bg-lavender/15",
-  "bg-olive/20",
+  "bg-honey/15", "bg-teal/15", "bg-lavender/20", "bg-olive/15",
+  "bg-honey/20", "bg-teal/10", "bg-lavender/15", "bg-olive/20",
 ] as const;
 
 const meetups = [
-  {
-    name: "Sniff it out",
-    description: "Morning walks, new trails, better noses than ours.",
-    tint: "bg-olive/15",
-  },
-  {
-    name: "Beach n Brunch",
-    description: "Sand, salt, and dogs who've earned their eggs benny.",
-    tint: "bg-teal/15",
-  },
-  {
-    name: "Frosty Paws",
-    description: "Cold treats for warm pups. A winter village tradition.",
-    tint: "bg-lavender/20",
-  },
-  {
-    name: "Happy hour with the hoomans",
-    description: "The dogs nap. The humans finally talk.",
-    tint: "bg-honey/15",
-  },
+  { name: "Sniff it out", description: "Morning walks, new trails, better noses than ours.", tint: "bg-olive/15" },
+  { name: "Beach n Brunch", description: "Sand, salt, and dogs who've earned their eggs benny.", tint: "bg-teal/15" },
+  { name: "Frosty Paws", description: "Cold treats for warm pups. A winter village tradition.", tint: "bg-lavender/20" },
+  { name: "Happy hour with the hoomans", description: "The dogs nap. The humans finally talk.", tint: "bg-honey/15" },
 ] as const;
 
 export default function VillagePage() {
   return (
     <main className="flex-1">
 
-      {/* ── Section 1: Join us on WhatsApp ───────────────────────── */}
-      <section className="bg-[#F5EBD3] py-24 md:py-32">
-        <div className="mx-auto max-w-[1200px] px-6 text-center">
-          <FadeIn>
-            <p className="mb-4 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink">
-              Chester's Village
-            </p>
-            <h1 className="mb-6 font-fraunces text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Join us on WhatsApp
-            </h1>
-            <p className="mx-auto mb-10 max-w-md font-inter text-base leading-relaxed text-muted-ink">
-              Our community lives in a WhatsApp group where pet parents share walks, vet recommendations, and
-              the kind of support that only comes from people who really get it.
-            </p>
-            <a
-              href={site.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-full bg-ink px-10 py-4 font-inter text-sm font-medium text-cream transition-all duration-300 ease-out hover:bg-ink/80 shadow-warm"
-            >
-              Join the village
-            </a>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── Section 2: How we gather ──────────────────────────────── */}
-      <section className="bg-[#F0EDE4] py-24 md:py-32">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <FadeIn>
-            <div className="mb-14 max-w-xl">
-              <p className="mb-4 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink">
-                How we gather
-              </p>
-              <h2 className="font-fraunces text-4xl leading-snug text-ink sm:text-5xl">
-                Four ways the village shows up
-              </h2>
-            </div>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {meetups.map((meetup, i) => (
-              <FadeIn key={meetup.name} delay={i * 0.08}>
-                <div className="group">
-                  <div className="overflow-hidden rounded-2xl">
-                    <div
-                      className={`aspect-[4/3] w-full ${meetup.tint} transition-transform duration-300 ease-out group-hover:scale-[1.02]`}
-                    >
-                      <div className="flex h-full w-full items-end p-5">
-                        <span className="font-fraunces text-xs italic text-muted-ink/50">
-                          Photo coming soon
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 px-1">
-                    <p className="mb-1 font-fraunces text-xl text-ink">{meetup.name}</p>
-                    <p className="font-inter text-sm leading-relaxed text-muted-ink">
-                      {meetup.description}
-                    </p>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Section 3: Meet our pups ──────────────────────────────── */}
-      <section className="bg-cream py-24 md:py-32">
+      {/* ── Section 1: Meet our pups ─────────────────────────────── */}
+      <section id="pups" className="bg-cream py-24 md:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1200px] px-6">
           <FadeIn>
             <div className="mb-14">
@@ -126,9 +38,7 @@ export default function VillagePage() {
                   Meet the villagers
                 </p>
               </div>
-              <h2 className="font-fraunces text-4xl text-ink sm:text-5xl">
-                The pups
-              </h2>
+              <h1 className="font-fraunces text-4xl text-ink sm:text-5xl">The pups</h1>
             </div>
           </FadeIn>
 
@@ -136,7 +46,7 @@ export default function VillagePage() {
             {pups.map((pup, i) => (
               <FadeIn key={pup.name} delay={i * 0.05}>
                 <li className="group">
-                  <div className="relative overflow-hidden rounded-2xl aspect-square">
+                  <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
                     <Image
                       src={pup.image}
                       alt={pup.name}
@@ -155,6 +65,90 @@ export default function VillagePage() {
           </ul>
         </div>
       </section>
+
+      {/* ── Section 2: Events so far ──────────────────────────────── */}
+      <section id="events" className="bg-[#F0EDE4] py-24 md:py-32 scroll-mt-20">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <FadeIn>
+            <div className="mb-14 max-w-xl">
+              <p className="mb-4 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink">
+                How we gather
+              </p>
+              <h2 className="font-fraunces text-4xl leading-snug text-ink sm:text-5xl">
+                Events so far
+              </h2>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {meetups.map((meetup, i) => (
+              <FadeIn key={meetup.name} delay={i * 0.08}>
+                <div className="group">
+                  <div className={`aspect-[4/3] overflow-hidden rounded-2xl ${meetup.tint} shadow-warm transition-transform duration-300 ease-out group-hover:scale-[1.01]`}>
+                    <div className="flex h-full w-full items-end p-5">
+                      <span className="font-fraunces text-xs italic text-muted-ink/50">Photo coming soon</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 px-1">
+                    <p className="mb-1 font-fraunces text-xl text-ink">{meetup.name}</p>
+                    <p className="font-inter text-sm leading-relaxed text-muted-ink">{meetup.description}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 3: Community stories ─────────────────────────── */}
+      <section id="community" className="bg-[#F5EBD3] py-24 md:py-32 scroll-mt-20">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <FadeIn>
+            <div className="mb-14 max-w-xl">
+              <p className="mb-4 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink">
+                The village in action
+              </p>
+              <h2 className="font-fraunces text-4xl leading-snug text-ink sm:text-5xl">
+                How we show up for each other
+              </h2>
+            </div>
+          </FadeIn>
+
+          <div className="grid gap-6 sm:grid-cols-3">
+            {communityStories.map((story, i) => (
+              <FadeIn key={story.id} delay={i * 0.08}>
+                {story.placeholder ? (
+                  <div className="flex min-h-[220px] flex-col justify-center rounded-2xl border-2 border-dashed border-olive/40 p-8 text-center">
+                    <p className="font-caveat text-lg text-muted-ink/50">Story goes here</p>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl bg-cream p-8 shadow-warm">
+                    <h3 className="mb-3 font-fraunces text-xl text-ink">{story.title}</h3>
+                    <p className="font-inter text-sm leading-relaxed text-muted-ink">{story.body}</p>
+                  </div>
+                )}
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Slim WhatsApp banner ──────────────────────────────────── */}
+      <div className="bg-ink py-6">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6">
+          <p className="font-fraunces text-lg text-cream">
+            Ready to join the village?
+          </p>
+          <a
+            href={site.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-teal px-6 py-2.5 font-inter text-sm font-medium text-cream transition-all duration-300 ease-out hover:brightness-110"
+          >
+            Join on WhatsApp
+          </a>
+        </div>
+      </div>
 
     </main>
   );
