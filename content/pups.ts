@@ -1,5 +1,5 @@
-// Pup directory — replace placeholder entries with real member submissions.
-// image: path under /public/images/pups/ (add files there when photos arrive).
+// Pup directory — real photos in /public/images/pups/
+// Note: snowflake.heic is excluded (HEIC not supported by browsers — convert to .jpg to include)
 // caption: neighborhood or one-word vibe, shown on desktop hover only.
 
 export type Pup = {
@@ -9,16 +9,11 @@ export type Pup = {
 };
 
 export const pups: Pup[] = [
-  { name: "Biscuit", image: "/images/pups/biscuit.jpg", caption: "Noe Valley" },
-  { name: "Luna", image: "/images/pups/luna.jpg", caption: "Mellow" },
-  { name: "Mango", image: "/images/pups/mango.jpg", caption: "The Sunset" },
-  { name: "Olive", image: "/images/pups/olive.jpg", caption: "Spirited" },
-  { name: "Pretzel", image: "/images/pups/pretzel.jpg", caption: "The Mission" },
-  { name: "Waffles", image: "/images/pups/waffles.jpg", caption: "Chaotic good" },
-  { name: "Cheddar", image: "/images/pups/cheddar.jpg", caption: "Pacific Heights" },
-  { name: "Fig", image: "/images/pups/fig.jpg", caption: "Gentle" },
-  { name: "Clover", image: "/images/pups/clover.jpg", caption: "Glen Park" },
-  { name: "Nori", image: "/images/pups/nori.jpg", caption: "Unbothered" },
-  { name: "Peanut", image: "/images/pups/peanut.jpg", caption: "The Castro" },
-  { name: "Sage", image: "/images/pups/sage.jpg", caption: "Very serious" },
+  { name: "Maui", image: "/images/pups/maui.jpg", caption: "Golden hour regular" },
+  { name: "Nico", image: "/images/pups/nico.jpg", caption: "Very diplomatic" },
+  { name: "Sam", image: "/images/pups/sam.jpg", caption: "Founding villager" },
+  { name: "Toffee", image: "/images/pups/toffee.jpg", caption: "Sweetest in the pack" },
+  { name: "Toto", image: "/images/pups/toto.JPG", caption: "Always first to arrive" },
+  { name: "Whiskey", image: "/images/pups/whiskey.JPG", caption: "Chaotic good" },
+  { name: "Yuki", image: "/images/pups/yuki.JPG", caption: "Deeply unbothered" },
 ];

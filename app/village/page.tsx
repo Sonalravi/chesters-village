@@ -3,6 +3,7 @@
 // Section 2: How we gather — four meetup cards (teal-tint bg)
 // Section 3: Meet our pups — pup grid (cream bg), names in Caveat
 
+import Image from "next/image";
 import { site } from "@/content/site";
 import { pups } from "@/content/pups";
 import FadeIn from "@/components/ui/fade-in";
@@ -135,12 +136,14 @@ export default function VillagePage() {
             {pups.map((pup, i) => (
               <FadeIn key={pup.name} delay={i * 0.05}>
                 <li className="group">
-                  <div className="relative overflow-hidden rounded-2xl">
-                    <div
-                      className={`aspect-square w-full ${placeholderTints[i % placeholderTints.length]} transition-transform duration-300 ease-out md:group-hover:scale-[1.02]`}
-                    >
-                      {/* Replace with <Image src={pup.image} ... /> once photos arrive */}
-                    </div>
+                  <div className="relative overflow-hidden rounded-2xl aspect-square">
+                    <Image
+                      src={pup.image}
+                      alt={pup.name}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className={`object-cover transition-transform duration-300 ease-out md:group-hover:scale-[1.02] ${placeholderTints[i % placeholderTints.length]}`}
+                    />
                     <div className="absolute inset-x-0 bottom-0 bg-ink/70 px-3 py-2 opacity-0 transition-opacity duration-300 ease-out md:group-hover:opacity-100">
                       <p className="font-inter text-xs text-cream/80">{pup.caption}</p>
                     </div>
