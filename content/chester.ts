@@ -34,6 +34,11 @@ export const chesterContent = {
       body: "San Francisco suited Chester in a way Mumbai never quite had. The hills gave him purpose. The fog gave him mystery. The people, so many people, gave him what he actually came here for: an audience. He turned sidewalks into gathering places. He turned strangers into friends. He turned a city full of people trying to mind their own business into something that felt, improbably, like a neighborhood.",
     },
     {
+      id: "his-footprint",
+      heading: "His footprint",
+      body: "Chester had a geography. Certain parks, certain beaches, certain trails where the regulars knew his name. He had favorite corners and preferred routes and places he always stopped at for no reason any of us could determine. This is a map of where he went.",
+    },
+    {
       id: "a-brother-named-shadow",
       heading: "A brother named Shadow",
       body: "Shadow arrived three years after Chester and spent the first week uncertain about the arrangement. Chester spent that same week being relentlessly, aggressively welcoming in the way only golden retrievers can be. By week two, they had established a hierarchy and a rhythm. Chester led; Shadow followed. Chester befriended; Shadow observed. They balanced each other in ways we still don't fully understand.",
