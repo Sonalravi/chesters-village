@@ -4,8 +4,8 @@ import ChesterMark from "@/components/ui/chester-mark";
 
 const nav = [
   { label: "Home", href: "/" },
+  { label: "The Village", href: "/village" },
   { label: "Chester", href: "/chester" },
-  { label: "The pups", href: "/pups" },
 ];
 
 const social = [

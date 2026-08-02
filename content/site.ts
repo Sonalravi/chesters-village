@@ -11,6 +11,7 @@ export const site = {
   email: "chestersvillage@gmail.com",
   instagram: "https://www.instagram.com/chestersvillage",
   linkedin: "https://www.linkedin.com/company/chester-s-village/",
+  googleDrive: "#", // placeholder — add real Drive link when available
   domain: "chestersvillage.com",
   meetupNames: [
     "Sniff it out",

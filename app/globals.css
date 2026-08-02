@@ -54,12 +54,27 @@
   --color-lavender: var(--cv-lavender);
   --color-olive: var(--cv-olive);
   --color-honey: var(--cv-honey);
+  --color-teal-tint: #F0EDE4;
+  --color-lavender-tint: #F3EDEF;
+  --color-olive-tint: #EEE9DA;
+  --color-honey-tint: #F5EBD3;
+
+  --shadow-warm: 0 10px 40px -10px rgba(43, 32, 25, 0.15);
 
   /* Chester's Village fonts */
   --font-sans: var(--font-inter);
   --font-fraunces: var(--font-fraunces);
   --font-inter: var(--font-inter);
   --font-caveat: var(--font-caveat);
+
+  /* Chester's Village tinted backgrounds */
+  --color-teal-tint: #F0EDE4;
+  --color-lavender-tint: #F3EDEF;
+  --color-olive-tint: #EEE9DA;
+  --color-honey-tint: #F5EBD3;
+
+  /* Warm shadow */
+  --shadow-warm: 0 10px 40px -10px rgba(43, 32, 25, 0.15);
 }
 
 :root {
@@ -116,5 +131,11 @@
   }
   html {
     @apply font-inter;
+  }
+}
+
+@layer utilities {
+  .shadow-warm {
+    box-shadow: var(--shadow-warm);
   }
 }
