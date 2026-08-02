@@ -60,4 +60,25 @@ export const chesterPlaces: ChesterPlace[] = [
     photo: "/images/chester/places/truckee.JPEG",
     caption: "Snow was his idea of a good time.",
   },
+  {
+    name: "Mill Valley",
+    region: "Marin County",
+    coords: [37.9060, -122.5450],
+    photo: "/images/chester/places/mill-valley.jpg",
+    caption: "Redwoods and off-leash trails. His idea of perfect.",
+  },
+  {
+    name: "Mt. Tamalpais",
+    region: "Marin County",
+    coords: [37.9235, -122.5965],
+    photo: "/images/chester/places/mt-tam.JPEG",
+    caption: "The view from the top was wasted on him. He was busy sniffing.",
+  },
+  {
+    name: "Lassen Volcanic National Park",
+    region: "Northern California",
+    coords: [40.4977, -121.4207],
+    photo: "/images/chester/places/lassen-volcanic-national-park.jpg",
+    caption: "The furthest north he ever went. He approved.",
+  },
 ];

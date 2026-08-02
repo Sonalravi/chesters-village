@@ -80,10 +80,10 @@ export default function Hero() {
               transition={{ duration: 0.6, ease: "easeOut", delay: ring * 0.05 + (visible ? Math.random() * 0.3 : 0) }}
             >
               {isChester && (
-                <Image src="/images/pups/toffee.jpg" alt="Chester" fill className="object-cover" sizes="12vw" />
+                <Image src="/images/chester/story/chester-as-a-baby.jpg" alt="Chester" fill className="object-cover" sizes="12vw" />
               )}
               {isShadow && (
-                <Image src="/images/pups/yuki.JPG" alt="Shadow" fill className="object-cover" sizes="12vw" />
+                <Image src="/images/chester/shadow/with-shadow-3.JPEG" alt="Shadow" fill className="object-cover" sizes="12vw" />
               )}
               {!isSpecial && tileImages[i] && (
                 <Image src={tileImages[i]} alt="" fill className="object-cover" sizes="12vw" aria-hidden="true" />
