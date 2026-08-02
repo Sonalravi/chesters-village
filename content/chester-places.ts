@@ -81,4 +81,11 @@ export const chesterPlaces: ChesterPlace[] = [
     photo: "/images/chester/places/lassen-volcanic-national-park.jpg",
     caption: "The furthest north he ever went. He approved.",
   },
+  {
+    name: "Lake Tahoe",
+    region: "Sierra Nevada",
+    coords: [39.0968, -120.0324],
+    photo: "/images/chester/places/lake-tahoe.jpg",
+    caption: "The clearest water he ever ignored in favor of the shore.",
+  },
 ];
