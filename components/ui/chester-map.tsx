@@ -5,27 +5,56 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Image from "next/image";
 import type { ChesterPlace } from "@/content/chester-places";
-import PawPrint from "@/components/ui/paw-print";
 
 interface ChesterMapProps {
   places: ChesterPlace[];
+  defaultActiveIndex?: number; // which pin to pre-open (default: 0 = first place)
 }
 
-// Fit bounds with some padding so all pins are visible
 function getBounds(places: ChesterPlace[]): L.LatLngBoundsExpression {
   const lats = places.map((p) => p.coords[0]);
   const lngs = places.map((p) => p.coords[1]);
   return [
-    [Math.min(...lats) - 0.1, Math.min(...lngs) - 0.1],
-    [Math.max(...lats) + 0.1, Math.max(...lngs) + 0.1],
+    [Math.min(...lats) - 0.15, Math.min(...lngs) - 0.15],
+    [Math.max(...lats) + 0.15, Math.max(...lngs) + 0.15],
   ];
 }
 
-export default function ChesterMap({ places }: ChesterMapProps) {
+// Build a paw-print divIcon with the place photo embedded in the central pad
+function buildPawIcon(photoSrc: string, active = false): L.DivIcon {
+  const size = active ? 52 : 40;
+  const border = active ? "#E8B04A" : "#A8B368";
+  const shadow = active ? "0 4px 20px rgba(43,32,25,0.25)" : "0 2px 10px rgba(43,32,25,0.15)";
+
+  return L.divIcon({
+    className: "",
+    html: `
+      <div style="width:${size}px;height:${size}px;position:relative;filter:drop-shadow(${shadow});transition:all 0.25s ease;">
+        <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="position:absolute;inset:0;">
+          <!-- toe beans -->
+          <ellipse cx="22" cy="22" rx="10" ry="13" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
+          <ellipse cx="50" cy="14" rx="10" ry="13" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
+          <ellipse cx="78" cy="22" rx="10" ry="13" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
+          <!-- main pad clip path -->
+          <clipPath id="pad-clip-${size}">
+            <ellipse cx="50" cy="72" rx="30" ry="28"/>
+          </clipPath>
+          <!-- main pad fill (shows photo through clip) -->
+          <ellipse cx="50" cy="72" rx="30" ry="28" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
+          <image href="${photoSrc}" x="20" y="44" width="60" height="56" clip-path="url(#pad-clip-${size})" preserveAspectRatio="xMidYMid slice"/>
+        </svg>
+      </div>`,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+  });
+}
+
+export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activePlace, setActivePlace] = useState<ChesterPlace | null>(null);
-  const [cardPos, setCardPos] = useState({ x: 0, y: 0 });
+  const markersRef = useRef<L.Marker[]>([]);
+  const [activeIdx, setActiveIdx] = useState<number | null>(defaultActiveIndex);
+  const [cardPos, setCardPos] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -34,10 +63,8 @@ export default function ChesterMap({ places }: ChesterMapProps) {
       scrollWheelZoom: false,
       zoomControl: false,
     });
-
     mapRef.current = map;
 
-    // CartoDB Voyager — warm, minimal tile style
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
       {
@@ -47,68 +74,78 @@ export default function ChesterMap({ places }: ChesterMapProps) {
       }
     ).addTo(map);
 
-    map.fitBounds(getBounds(places), { padding: [40, 40] });
+    map.fitBounds(getBounds(places), { padding: [48, 48] });
 
-    // Custom cream/paw pin
-    const createPinIcon = () =>
-      L.divIcon({
-        className: "",
-        html: `<div style="
-          width:36px;height:36px;border-radius:50%;
-          background:#FBF7EF;
-          box-shadow:0 4px 16px rgba(43,32,25,0.18);
-          display:flex;align-items:center;justify-content:center;
-          cursor:pointer;
-          border:2px solid #E8B04A;
-        ">
-          <svg viewBox="0 0 24 24" fill="#2B2019" width="16" height="16">
-            <ellipse cx="5" cy="8" rx="2.2" ry="3"/>
-            <ellipse cx="11" cy="5.5" rx="2.2" ry="3"/>
-            <ellipse cx="17" cy="7" rx="2.2" ry="3"/>
-            <ellipse cx="8" cy="14" rx="2.2" ry="3" transform="rotate(-10 8 14)"/>
-            <ellipse cx="15" cy="13" rx="2.2" ry="3" transform="rotate(10 15 13)"/>
-            <ellipse cx="11.5" cy="18" rx="4.5" ry="4" />
-          </svg>
-        </div>`,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-      });
+    places.forEach((place, i) => {
+      const marker = L.marker(place.coords, {
+        icon: buildPawIcon(place.photo, i === defaultActiveIndex),
+      }).addTo(map);
 
-    places.forEach((place) => {
-      const marker = L.marker(place.coords, { icon: createPinIcon() }).addTo(map);
       marker.on("click", (e) => {
-        const containerRect = containerRef.current!.getBoundingClientRect();
         const point = map.latLngToContainerPoint(e.latlng);
         setCardPos({ x: point.x, y: point.y });
-        setActivePlace(place);
+        setActiveIdx(i);
+        // Update all marker icons
+        markersRef.current.forEach((m, j) => {
+          m.setIcon(buildPawIcon(places[j].photo, j === i));
+        });
       });
+
+      markersRef.current.push(marker);
     });
 
-    map.on("click", () => setActivePlace(null));
+    // Pre-open default pin position after map renders
+    map.whenReady(() => {
+      setTimeout(() => {
+        const defaultPlace = places[defaultActiveIndex];
+        if (defaultPlace) {
+          const point = map.latLngToContainerPoint(
+            L.latLng(defaultPlace.coords[0], defaultPlace.coords[1])
+          );
+          setCardPos({ x: point.x, y: point.y });
+        }
+      }, 300);
+    });
+
+    map.on("click", (e) => {
+      // Only close if clicking map background (not a marker)
+      const target = e.originalEvent.target as HTMLElement;
+      if (!target.closest("[data-leaflet-marker]")) {
+        setActiveIdx(null);
+        setCardPos(null);
+        markersRef.current.forEach((m, j) => {
+          m.setIcon(buildPawIcon(places[j].photo, false));
+        });
+      }
+    });
 
     return () => {
       map.remove();
       mapRef.current = null;
+      markersRef.current = [];
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const activePlace = activeIdx !== null ? places[activeIdx] : null;
+  const containerWidth = containerRef.current?.offsetWidth ?? 600;
 
   return (
     <div className="relative w-full">
-      {/* Map container */}
       <div
         ref={containerRef}
-        className="w-full rounded-2xl overflow-hidden shadow-warm"
+        className="w-full overflow-hidden rounded-2xl shadow-warm"
         style={{ height: "clamp(360px, 45vw, 500px)" }}
       />
 
-      {/* Hover card */}
-      {activePlace && (
+      {/* Floating card — honey border, warm shadow, rounded-2xl */}
+      {activePlace && cardPos && (
         <div
-          className="absolute z-[1000] w-56 rounded-2xl bg-cream shadow-warm overflow-hidden pointer-events-none"
+          className="pointer-events-none absolute z-[1000] w-60 overflow-hidden rounded-2xl bg-cream shadow-warm"
           style={{
-            left: Math.min(cardPos.x + 12, (containerRef.current?.offsetWidth ?? 400) - 240),
-            top: Math.max(cardPos.y - 160, 8),
+            border: "2px solid #E8B04A",
+            left: Math.min(cardPos.x + 16, containerWidth - 256),
+            top: Math.max(cardPos.y - 180, 8),
           }}
         >
           <div className="relative aspect-[4/3] w-full bg-honey/15">
@@ -117,17 +154,14 @@ export default function ChesterMap({ places }: ChesterMapProps) {
               alt={activePlace.name}
               fill
               className="object-cover"
-              sizes="224px"
+              sizes="240px"
             />
           </div>
           <div className="p-3">
-            <div className="flex items-center gap-1.5 mb-1">
-              <PawPrint className="h-3 w-3 text-honey shrink-0" />
-              <p className="font-fraunces text-sm text-ink">{activePlace.name}</p>
-            </div>
-            <p className="font-inter text-xs text-muted-ink leading-snug">{activePlace.region}</p>
+            <p className="font-fraunces text-sm font-bold text-ink">{activePlace.name}</p>
+            <p className="font-inter text-xs text-muted-ink">{activePlace.region}</p>
             {activePlace.caption && (
-              <p className="mt-1.5 font-inter text-xs italic text-muted-ink/70 leading-snug">
+              <p className="mt-1.5 font-fraunces text-xs italic leading-snug text-ink/65">
                 {activePlace.caption}
               </p>
             )}

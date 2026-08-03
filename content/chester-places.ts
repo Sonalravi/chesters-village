@@ -88,4 +88,25 @@ export const chesterPlaces: ChesterPlace[] = [
     photo: "/images/chester/places/lake-tahoe.jpg",
     caption: "The clearest water he ever ignored in favor of the shore.",
   },
+  {
+    name: "Bernal Heights",
+    region: "San Francisco",
+    coords: [37.7449, -122.4151],
+    photo: "/images/chester/places/bernal-heights.jpg",
+    caption: "The hill where he'd sit and survey his city.",
+  },
+  {
+    name: "Strawberry Hill",
+    region: "San Francisco",
+    coords: [37.7696, -122.4756],
+    photo: "/images/chester/places/strawberry-hill.JPG",
+    caption: "Golden Gate Park, his second home.",
+  },
+  {
+    name: "Siskiyou Lake",
+    region: "Northern California",
+    coords: [41.3099, -122.3108],
+    photo: "/images/chester/places/siskiyou-lake.jpg",
+    caption: "He swam here. Twice. Very proud.",
+  },
 ];
