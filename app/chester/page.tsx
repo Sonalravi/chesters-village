@@ -1,477 +1,382 @@
-"use client";
-
-// /chester — Character portrait scrapbook. 6 sections.
-// Design language: Blob, Squiggle, ScrapbookTile, paw-photo Leaflet map.
+// /chester — Character portrait, long-form memoir structure.
+// 6 sections. Blob shapes behind hero and closing photos only.
+// Two squiggle separators: between §3→§4 and §5→§6.
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { chesterPlaces } from "@/content/chester-places";
-import ChesterMark from "@/components/ui/chester-mark";
 import PawScrollIndicator from "@/components/ui/paw-scroll-indicator";
 import ChesterMapLoader from "@/components/ui/chester-map-loader";
 import FadeIn from "@/components/ui/fade-in";
 import Blob from "@/components/design/Blob";
 import Squiggle from "@/components/design/Squiggle";
-import ScrapbookTile from "@/components/design/ScrapbookTile";
 
 const SECTION_IDS = [
   "hero",
-  "who-he-was",
+  "from-bangalore",
   "sniffaris",
-  "the-village-he-built",
-  "when-the-village-came-back",
-  "closing",
+  "and-then-it-all-changed",
+  "the-village-came-back",
+  "he-built-this",
 ];
 
-// Sparkle glyph
-function Sparkle({ className = "" }: { className?: string }) {
+function PhotoPlaceholder({
+  label,
+  className = "",
+}: {
+  label: string;
+  className?: string;
+}) {
   return (
-    <span className={`font-inter text-honey select-none ${className}`} aria-hidden="true">
-      ✦
-    </span>
+    <div
+      className={`flex items-center justify-center rounded-2xl border-2 border-dashed border-olive/40 bg-cream ${className}`}
+    >
+      <p className="font-caveat text-sm text-muted-ink/50">{label}</p>
+    </div>
   );
 }
 
 export default function ChesterPage() {
   return (
-    <main className="flex-1 bg-cream overflow-x-hidden">
+    <main className="flex-1 bg-cream">
       <PawScrollIndicator sectionIds={SECTION_IDS} />
 
-      {/* ── 1. HERO ──────────────────────────────────────────────── */}
-      <section id="hero" className="relative overflow-hidden">
-        {/* Background blob */}
-        <div
-          className="pointer-events-none absolute -top-24 -right-32 opacity-60"
-          aria-hidden="true"
-        >
-          <Blob variant={1} color="#E8B04A" size={520} rotation={20} opacity={0.12} />
-        </div>
-
-        {/* Header block */}
-        <div className="relative mx-auto max-w-[640px] px-6 pt-20 pb-12 text-center">
-          <ChesterMark className="mx-auto mb-10 h-16 w-16 text-ink/10" />
-
-          <motion.h1
-            className="mb-3 font-fraunces font-black text-ink"
-            style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)", lineHeight: 1 }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-          >
-            Chester
-          </motion.h1>
-
-          <motion.p
-            className="mb-8 font-inter text-sm tracking-[0.18em] text-muted-ink/70 uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            2015 — 2026
-          </motion.p>
-
-          <motion.p
-            className="font-fraunces text-xl italic leading-relaxed text-ink/60 sm:text-2xl"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.6, ease: "easeOut" }}
-          >
-            <Sparkle className="mr-2 text-base" />
-            The dog who talked to strangers.
-            <Sparkle className="ml-2 text-base" />
-          </motion.p>
-
-          <motion.div
-            className="mt-8 flex justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.65, duration: 0.5 }}
-          >
-            <Squiggle variant={1} color="#A8B368" width={180} />
-          </motion.div>
-        </div>
-
-        {/* Hero photo — scale in */}
-        <motion.div
-          className="relative w-full overflow-hidden bg-honey/10"
-          style={{ aspectRatio: "16/7" }}
-          initial={{ scale: 0.97, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-        >
-          <Image
-            src="/images/chester/story/chester-as-a-baby.jpg"
-            alt="Chester as a puppy"
-            fill
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-          />
-        </motion.div>
-      </section>
-
-      {/* ── 2. WHO HE WAS ─────────────────────────────────────────── */}
-      <section id="who-he-was" className="relative py-24 overflow-hidden">
-        {/* Background blob */}
-        <div
-          className="pointer-events-none absolute -left-40 top-16 opacity-70"
-          aria-hidden="true"
-        >
-          <Blob variant={3} color="#7AAFA8" size={400} rotation={-15} opacity={0.10} />
-        </div>
-
-        <div className="mx-auto max-w-5xl px-6">
+      {/* ── 1. HERO ──────────────────────────────────────────────────── */}
+      <section id="hero" className="py-24">
+        <div className="mx-auto max-w-[640px] px-6 text-center">
           <FadeIn>
-            <div className="mb-14 text-center">
-              <p className="mb-3 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink/50">
-                01
-              </p>
-              <h2 className="font-fraunces font-black text-ink"
-                style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", lineHeight: 1.1 }}>
-                Who he was
-              </h2>
-              <div className="mt-5 flex justify-center">
-                <Squiggle variant={3} color="#E8B04A" width={120} />
-              </div>
-            </div>
+            <p className="mb-5 font-caveat text-base text-muted-ink/70">
+              The dog who started it all.
+            </p>
+
+            <h1
+              className="font-fraunces font-black text-ink"
+              style={{ fontSize: "clamp(4rem, 12vw, 7.5rem)", lineHeight: 1 }}
+            >
+              Chester
+            </h1>
+
+            <p className="mt-5 font-fraunces text-xl text-muted-ink">
+              2015 — 2026
+            </p>
+
+            <p className="mt-10 font-fraunces text-lg italic leading-relaxed text-ink/65 sm:text-xl">
+              Chester's Village is a community, but it started as a dog. His name
+              was Chester, and everywhere he went, he built a village around him.
+              Strangers became friends because he stopped to say hello. Neighbors
+              became family because he made them notice each other. This page is
+              for him.
+            </p>
           </FadeIn>
 
-          {/* 6-tile asymmetric grid */}
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            <ScrapbookTile
-              photo="/images/chester/story/chester-as-a-baby.jpg"
-              alt="Chester as a puppy"
-              caption="He arrived small, uncertain, and fully convinced that every person he met was there specifically for him."
-              rotation={-3}
-              blobVariant={1}
-              blobColor="#E8B04A"
-              delay={0}
-              aspectRatio="aspect-[3/4]"
-            />
-            <ScrapbookTile
-              caption="He never met a stranger. Not once. Not even the people who tried."
-              rotation={2}
-              blobVariant={2}
-              blobColor="#7AAFA8"
-              delay={0.1}
-              aspectRatio="aspect-[4/3]"
-              className="sm:mt-10"
-            />
-            <ScrapbookTile
-              photo="/images/chester/story/relocation-from-blr-to-sf.jpg"
-              alt="Chester's move from Bangalore to San Francisco"
-              caption="He crossed an ocean and landed in San Francisco without missing a beat."
-              rotation={3}
-              blobVariant={4}
-              blobColor="#C9AFD3"
-              delay={0.2}
-              aspectRatio="aspect-square"
-            />
-            <ScrapbookTile
-              caption="His speed was genuinely embarrassing. The beach brought it out every time."
-              rotation={-2}
-              blobVariant={5}
-              blobColor="#A8B368"
-              delay={0.1}
-              aspectRatio="aspect-[4/3]"
-              className="sm:mt-6"
-            />
-            <ScrapbookTile
-              photo="/images/chester/shadow/with-shadow-1.jpg"
-              alt="Chester with Shadow"
-              caption="He got a brother. Shadow. He was horrified and then obsessed, in that order."
-              rotation={2}
-              blobVariant={3}
-              blobColor="#C9AFD3"
-              delay={0.2}
-              aspectRatio="aspect-[3/4]"
-            />
-            <ScrapbookTile
-              caption="He read a room the way some people read a book. Quietly, carefully, and without missing anything."
-              rotation={-3}
-              blobVariant={1}
-              blobColor="#E8B04A"
-              delay={0.3}
-              aspectRatio="aspect-square"
-              className="sm:mt-10"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. SNIFFARIS ──────────────────────────────────────────── */}
-      <section id="sniffaris" className="relative py-24 bg-olive/5 overflow-hidden">
-        <div
-          className="pointer-events-none absolute -right-32 -bottom-20 opacity-60"
-          aria-hidden="true"
-        >
-          <Blob variant={2} color="#A8B368" size={480} rotation={30} opacity={0.08} />
-        </div>
-
-        <div className="mx-auto max-w-5xl px-6">
-          <FadeIn>
-            <div className="mb-5 text-center">
-              <p className="mb-3 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink/50">
-                02
-              </p>
-              <h2
-                className="font-fraunces font-black text-ink"
-                style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
+          {/* Hero photo with honey blob behind */}
+          <FadeIn delay={0.15}>
+            <div className="relative mt-14">
+              <div
+                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                aria-hidden="true"
               >
-                Sniffaris
-              </h2>
-              <p className="mt-4 font-fraunces text-lg italic text-ink/55">
-                Every great dog has a map. This was his.
-              </p>
-              <div className="mt-5 flex justify-center">
-                <Squiggle variant={2} color="#7AAFA8" width={140} />
+                <Blob variant={1} color="#E8B04A" size={520} rotation={12} opacity={0.13} />
               </div>
-            </div>
-          </FadeIn>
-
-          {/* Floating tiles above the map */}
-          <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <ScrapbookTile
-              photo="/images/chester/places/ocean-beach.jpg"
-              alt="Ocean Beach, San Francisco"
-              caption="Ocean Beach. His favorite sprint. Full speed, straight into the surf."
-              rotation={-2}
-              blobVariant={1}
-              blobColor="#7AAFA8"
-              delay={0}
-              aspectRatio="aspect-[4/3]"
-            />
-            <ScrapbookTile
-              photo="/images/chester/places/tilden-regional-park.jpg"
-              alt="Tilden Regional Park"
-              caption="Tilden. The hills gave him purpose."
-              rotation={3}
-              blobVariant={4}
-              blobColor="#E8B04A"
-              delay={0.1}
-              aspectRatio="aspect-[4/3]"
-              className="sm:mt-8"
-            />
-            <ScrapbookTile
-              photo="/images/chester/places/mt-tam.JPEG"
-              alt="Mt. Tamalpais"
-              caption="Mt. Tam. The view from the top was wasted on him. He was busy sniffing."
-              rotation={-3}
-              blobVariant={2}
-              blobColor="#C9AFD3"
-              delay={0.2}
-              aspectRatio="aspect-[4/3]"
-            />
-          </div>
-
-          {/* Map */}
-          <FadeIn>
-            <div className="-mx-6 sm:mx-0">
-              <ChesterMapLoader places={chesterPlaces} />
-            </div>
-            <p className="mt-3 text-center font-inter text-xs text-muted-ink/55">
-              Sniff around the map — every paw print holds a memory.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── 4. THE VILLAGE HE BUILT ───────────────────────────────── */}
-      <section id="the-village-he-built" className="relative py-24 overflow-hidden">
-        <div
-          className="pointer-events-none absolute -left-20 bottom-0 opacity-70"
-          aria-hidden="true"
-        >
-          <Blob variant={5} color="#C9AFD3" size={380} rotation={10} opacity={0.10} />
-        </div>
-
-        <div className="mx-auto max-w-5xl px-6">
-          <FadeIn>
-            <p className="mb-3 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink/50">
-              03
-            </p>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start">
-            {/* Prose */}
-            <FadeIn>
-              <div>
-                <h2
-                  className="mb-8 font-fraunces font-black text-ink"
-                  style={{ fontSize: "clamp(2.2rem, 4vw, 3rem)", lineHeight: 1.1 }}
-                >
-                  The village<br />he built
-                </h2>
-                <Squiggle variant={1} color="#A8B368" width={100} className="mb-8" animate={false} />
-                <div className="space-y-5 font-fraunces text-lg leading-[1.85] text-ink/75">
-                  <p>
-                    Chester was the reason Sona started talking to people at the park. He was the reason
-                    strangers became regulars, regulars became friends, and friends became a community
-                    that had each other on hard days.
-                  </p>
-                  <p>
-                    He didn't start Chester's Village intentionally. He just made it impossible not to.
-                    Every walk was an introduction. Every dog park was a reunion. Every beach run was a
-                    reason to stay a little longer.
-                  </p>
-                  <p>
-                    He left San Francisco with a wake. A hundred people who knew his name, his speed,
-                    his habit of sitting just a little too close when you were eating.
-                  </p>
-                </div>
-              </div>
-            </FadeIn>
-
-            {/* Photo + blob */}
-            <FadeIn delay={0.2}>
-              <div className="relative">
-                <div
-                  className="pointer-events-none absolute -inset-8 flex items-center justify-center"
-                  aria-hidden="true"
-                >
-                  <Blob variant={3} color="#C9AFD3" size={380} rotation={-20} opacity={0.18} />
-                </div>
-                <ScrapbookTile
-                  photo="/images/chester/story/relocation-from-blr-to-sf.jpg"
-                  alt="Chester moving to San Francisco"
-                  caption="From Bangalore to San Francisco. He landed ready."
-                  rotation={2}
-                  blobVariant={3}
-                  blobColor="#C9AFD3"
-                  delay={0}
-                  aspectRatio="aspect-[3/4]"
+              <div className="relative overflow-hidden rounded-2xl shadow-warm">
+                <Image
+                  src="/images/chester/story/relocation-from-blr-to-sf.jpg"
+                  alt="Chester"
+                  width={640}
+                  height={480}
+                  className="w-full object-cover"
+                  priority
+                  sizes="(max-width: 640px) 100vw, 640px"
                 />
               </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── 2. FROM BANGALORE TO SAN FRANCISCO ───────────────────────── */}
+      <section id="from-bangalore" className="py-20">
+        <div className="mx-auto max-w-[640px] px-6">
+          <FadeIn>
+            <h2 className="mb-10 font-fraunces text-3xl font-bold text-ink sm:text-4xl">
+              From Bangalore to San Francisco
+            </h2>
+          </FadeIn>
+
+          <div className="space-y-6 font-fraunces text-lg leading-relaxed text-ink/75">
+            {/* Paragraph 1 + right-aligned photo */}
+            <FadeIn>
+              <div className="overflow-hidden">
+                <div className="float-right mb-3 ml-6 w-[240px] sm:w-[280px]">
+                  <PhotoPlaceholder label="baby Chester" className="aspect-[3/4]" />
+                </div>
+                <p>
+                  [Placeholder — Sona will write this section.] Lorem ipsum dolor sit
+                  amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+                  labore et dolore magna aliqua. Chester came into Sona's life as a
+                  puppy in Bangalore, small and certain of himself from the very first
+                  day. He had opinions about everything: which side of the street was
+                  worth sniffing, which strangers deserved a greeting, which parks were
+                  worth returning to. He grew up in a city that moved fast, and he
+                  moved faster.
+                </p>
+              </div>
+            </FadeIn>
+
+            <FadeIn>
+              <p>
+                [Placeholder.] Ut enim ad minim veniam, quis nostrud exercitation
+                ullamco laboris nisi ut aliquip ex ea commodo consequat. In those
+                early Bangalore years, he learned what mattered to him: people,
+                movement, and the particular joy of an open gate. He made friends
+                everywhere he went, which is to say, he made friends constantly.
+                Every walk was an introduction. Every park was a reunion. His social
+                calendar was fuller than most humans'.
+              </p>
+            </FadeIn>
+
+            {/* Paragraph 3 + left-aligned photo */}
+            <FadeIn>
+              <div className="overflow-hidden">
+                <div className="float-left mb-3 mr-6 w-[240px] sm:w-[280px]">
+                  <PhotoPlaceholder label="before we left" className="aspect-[3/4]" />
+                </div>
+                <p>
+                  [Placeholder.] Duis aute irure dolor in reprehenderit in voluptate
+                  velit esse cillum dolore eu fugiat nulla pariatur. When the move
+                  to San Francisco came, the question was never whether Chester
+                  would adapt. The question was whether San Francisco was ready for
+                  Chester. He crossed an ocean and an continent and landed on the
+                  other side without missing a beat, without losing himself. The city
+                  was new. He was not.
+                </p>
+              </div>
+            </FadeIn>
+
+            <FadeIn>
+              <p>
+                [Placeholder.] Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                San Francisco suited him the way cities suit dogs who were born
+                for them — every neighborhood a new trail, every beach a new
+                sprint. Ocean Beach became his favorite ritual. The smell of
+                salt and the particular sound of waves, and then the full
+                commitment of running straight into the surf without any
+                hesitation whatsoever.
+              </p>
+            </FadeIn>
+
+            {/* Paragraph 5 + right-aligned photo */}
+            <FadeIn>
+              <div className="overflow-hidden">
+                <div className="float-right mb-3 ml-6 w-[240px] sm:w-[280px]">
+                  <PhotoPlaceholder label="arrived in SF" className="aspect-[3/4]" />
+                </div>
+                <p>
+                  [Placeholder.] Nemo enim ipsam voluptatem quia voluptas sit
+                  aspernatur aut odit aut fugit, sed quia consequuntur magni
+                  dolores eos qui ratione voluptatem sequi nesciunt. He built a
+                  life in San Francisco the way he had built one in Bangalore:
+                  slowly, person by person, park by park. The community that
+                  would eventually become Chester's Village was already forming
+                  around him before anyone thought to name it. He was just
+                  doing what he always did. He was saying hello.
+                </p>
+              </div>
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* ── 5. WHEN THE VILLAGE CAME BACK ─────────────────────────── */}
-      <section id="when-the-village-came-back" className="relative py-24 bg-honey/5 overflow-hidden">
-        <div
-          className="pointer-events-none absolute -right-16 top-0 opacity-60"
-          aria-hidden="true"
-        >
-          <Blob variant={4} color="#E8B04A" size={360} rotation={-10} opacity={0.10} />
+      {/* ── 3. SNIFFARIS ─────────────────────────────────────────────── */}
+      <section id="sniffaris" className="py-20">
+        <div className="mx-auto max-w-[640px] px-6">
+          <FadeIn>
+            <h2 className="mb-4 font-fraunces text-3xl font-bold text-ink sm:text-4xl">
+              His sniffaris.
+            </h2>
+            <p className="mb-10 font-fraunces text-lg italic leading-relaxed text-muted-ink">
+              Chester didn't visit places. He collected them. Every trail, every
+              beach, every strange corner of a strange new city — he made it his.
+            </p>
+          </FadeIn>
         </div>
 
-        <div className="mx-auto max-w-5xl px-6">
+        {/* Full-width map */}
+        <FadeIn>
+          <div className="px-4 sm:px-6">
+            <ChesterMapLoader places={chesterPlaces} />
+          </div>
+          <p className="mt-3 text-center font-inter text-xs text-muted-ink/55">
+            Every pin is a place he loved. Hover to visit.
+          </p>
+        </FadeIn>
+      </section>
+
+      {/* Squiggle separator — emotional pivot */}
+      <div className="flex justify-center py-10">
+        <Squiggle variant={2} color="#A8B368" width={120} />
+      </div>
+
+      {/* ── 4. AND THEN IT ALL CHANGED ───────────────────────────────── */}
+      <section id="and-then-it-all-changed" className="py-24">
+        <div className="mx-auto max-w-[640px] px-6">
           <FadeIn>
-            <div className="mb-14">
-              <p className="mb-3 font-inter text-xs tracking-[0.2em] uppercase text-muted-ink/50">
-                04
+            <h2 className="mb-10 font-fraunces text-3xl font-bold text-ink sm:text-4xl">
+              And then it all changed.
+            </h2>
+
+            <p className="font-fraunces text-lg leading-relaxed text-ink/75">
+              [Placeholder — Sona will write this section.] Lorem ipsum dolor sit
+              amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+              cupidatat non proident, sunt in culpa qui officia deserunt mollit
+              anim id est laborum. Sed ut perspiciatis unde omnis iste natus error
+              sit voluptatem accusantium doloremque laudantium totam rem aperiam.
+              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
+              fugit sed quia consequuntur magni dolores.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <div className="mt-12 flex justify-center">
+              <PhotoPlaceholder
+                label="photo goes here"
+                className="aspect-[4/3] w-full max-w-sm"
+              />
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── 5. THE VILLAGE CAME BACK ─────────────────────────────────── */}
+      <section id="the-village-came-back" className="py-20">
+        <div className="mx-auto max-w-[640px] px-6">
+          <FadeIn>
+            <h2 className="mb-10 font-fraunces text-3xl font-bold text-ink sm:text-4xl">
+              The village came back.
+            </h2>
+
+            <div className="space-y-5 font-fraunces text-lg leading-relaxed text-ink/75">
+              <p>
+                [Placeholder — Sona will write this section.] Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                esse cillum dolore eu fugiat nulla pariatur.
               </p>
-              <h2
-                className="font-fraunces font-black text-ink"
-                style={{ fontSize: "clamp(2.2rem, 4vw, 3rem)", lineHeight: 1.1 }}
-              >
-                When the village<br />came back
-              </h2>
-              <div className="mt-5">
-                <Squiggle variant={2} color="#E8B04A" width={110} animate={false} />
-              </div>
+              <p>
+                [Placeholder.] Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                accusantium doloremque laudantium, totam rem aperiam eaque ipsa
+                quae ab illo inventore veritatis et quasi architecto beatae vitae
+                dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas
+                sit aspernatur aut odit aut fugit.
+              </p>
+              <p>
+                [Placeholder.] At vero eos et accusamus et iusto odio dignissimos
+                ducimus qui blanditiis praesentium voluptatum deleniti atque
+                corrupti quos dolores et quas molestias excepturi sint occaecati
+                cupiditate non provident, similique sunt in culpa qui officia
+                deserunt mollitia animi id est laborum et dolorum fuga.
+              </p>
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
-            {/* 3-photo grid */}
-            <FadeIn>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="relative col-span-2 aspect-[16/9] overflow-hidden rounded-2xl shadow-warm">
-                  <Image
-                    src="/images/chester/shadow/with-shadow-2.jpg"
-                    alt="Chester with Shadow"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 90vw, 480px"
-                  />
-                </div>
-                <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
-                  <Image
-                    src="/images/chester/shadow/with-shadow-1.jpg"
-                    alt="Chester with Shadow"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 45vw, 240px"
-                  />
-                </div>
-                <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
-                  <Image
-                    src="/images/chester/shadow/with-shadow-3.JPEG"
-                    alt="Chester and Shadow"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 45vw, 240px"
-                  />
-                </div>
+          {/* Photo grid — 2 col mobile, 3 col desktop */}
+          <FadeIn delay={0.1}>
+            <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
+                <Image
+                  src="/images/chester/shadow/with-shadow-1.jpg"
+                  alt="Chester with Shadow"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 50vw, 200px"
+                />
               </div>
-            </FadeIn>
-
-            {/* Prose */}
-            <FadeIn delay={0.2}>
-              <div className="space-y-5 font-fraunces text-lg leading-[1.85] text-ink/75">
-                <p>
-                  When Chester got sick, the village showed up. Not with grand gestures. With
-                  presence. With check-ins. With "how are you doing today" from people who really
-                  wanted to know.
-                </p>
-                <p>
-                  He was there long enough to meet Shadow, his little brother. Long enough to
-                  watch the community he started become something that could outlast him.
-                </p>
-                <p>
-                  Chester's Village is still here. Because the people he brought together
-                  refused to let it be anything else.
-                </p>
+              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
+                <Image
+                  src="/images/chester/shadow/with-shadow-2.jpg"
+                  alt="Chester with Shadow"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 50vw, 200px"
+                />
               </div>
-            </FadeIn>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. CLOSING ────────────────────────────────────────────── */}
-      <section id="closing" className="relative py-28 overflow-hidden">
-        {/* Honey blob behind photo */}
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-          aria-hidden="true"
-        >
-          <Blob variant={1} color="#E8B04A" size={500} rotation={15} opacity={0.14} />
-        </div>
-
-        <div className="relative mx-auto max-w-[440px] px-6 text-center">
-          <FadeIn>
-            {/* Closing photo */}
-            <div
-              className="mx-auto mb-10 overflow-hidden rounded-2xl shadow-warm"
-              style={{ transform: "rotate(-1deg)" }}
-            >
-              <div className="relative aspect-[4/3] w-full">
+              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
                 <Image
                   src="/images/chester/shadow/with-shadow-3.JPEG"
                   alt="Chester and Shadow"
                   fill
                   className="object-cover"
-                  sizes="440px"
+                  sizes="(max-width: 640px) 50vw, 200px"
                 />
               </div>
+              <PhotoPlaceholder label="photo" className="aspect-square" />
+              <PhotoPlaceholder label="photo" className="aspect-square" />
+              <PhotoPlaceholder label="photo" className="aspect-square" />
             </div>
+          </FadeIn>
+        </div>
+      </section>
 
-            <Squiggle variant={3} color="#E8B04A" width={120} className="mx-auto mb-8" />
+      {/* Squiggle separator */}
+      <div className="flex justify-center py-10">
+        <Squiggle variant={3} color="#A8B368" width={120} />
+      </div>
 
-            <p className="font-fraunces text-2xl italic leading-relaxed text-ink/65 sm:text-3xl">
-              He didn't just leave a mark.<br />He left a village.
-            </p>
+      {/* ── 6. HE BUILT THIS ─────────────────────────────────────────── */}
+      <section id="he-built-this" className="py-24">
+        <div className="mx-auto max-w-[640px] px-6">
+          <FadeIn>
+            <h2 className="mb-10 font-fraunces text-3xl font-bold text-ink sm:text-4xl">
+              He built this.
+            </h2>
 
-            <p className="mt-6 font-inter text-sm tracking-[0.15em] text-muted-ink/50">
-              <Sparkle /> Chester, 2015–2026 <Sparkle />
+            <p className="font-fraunces text-lg leading-relaxed text-ink/75">
+              [Placeholder — Sona will write this section.] Lorem ipsum dolor sit
+              amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate
+              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+              occaecat cupidatat non proident sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
             </p>
           </FadeIn>
 
-          <div className="mt-16 flex justify-center">
-            <ChesterMark className="h-10 w-10 text-ink/10" />
-          </div>
+          {/* Closing photo with honey blob */}
+          <FadeIn delay={0.1}>
+            <div className="relative mt-14">
+              <div
+                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                aria-hidden="true"
+              >
+                <Blob variant={4} color="#E8B04A" size={480} rotation={-15} opacity={0.13} />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl shadow-warm">
+                <Image
+                  src="/images/chester/shadow/with-shadow-3.JPEG"
+                  alt="Chester and Shadow"
+                  width={640}
+                  height={480}
+                  className="w-full object-cover"
+                  sizes="(max-width: 640px) 100vw, 640px"
+                />
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.15}>
+            <p className="mt-10 text-center font-fraunces text-xl italic text-ink/55">
+              Every dog deserves what Chester had.
+            </p>
+          </FadeIn>
         </div>
       </section>
     </main>

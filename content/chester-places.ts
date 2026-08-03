@@ -8,6 +8,7 @@ export type ChesterPlace = {
   coords: [number, number]; // [lat, lng]
   photo: string;
   caption?: string;
+  featured?: boolean; // pre-opens on map load
 };
 
 export const chesterPlaces: ChesterPlace[] = [
@@ -17,6 +18,7 @@ export const chesterPlaces: ChesterPlace[] = [
     coords: [37.7694, -122.5107],
     photo: "/images/chester/places/ocean-beach.jpg",
     caption: "His favorite sprint. Full speed, straight into the surf.",
+    featured: true,
   },
   {
     name: "Mountain Lake Park",

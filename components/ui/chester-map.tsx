@@ -8,23 +8,21 @@ import type { ChesterPlace } from "@/content/chester-places";
 
 interface ChesterMapProps {
   places: ChesterPlace[];
-  defaultActiveIndex?: number; // which pin to pre-open (default: 0 = first place)
 }
 
-function getBounds(places: ChesterPlace[]): L.LatLngBoundsExpression {
-  const lats = places.map((p) => p.coords[0]);
-  const lngs = places.map((p) => p.coords[1]);
-  return [
-    [Math.min(...lats) - 0.15, Math.min(...lngs) - 0.15],
-    [Math.max(...lats) + 0.15, Math.max(...lngs) + 0.15],
-  ];
-}
+// Fixed bounds: SF Bay Area + coast from Monterey to Marin
+const BAY_AREA_BOUNDS: L.LatLngBoundsExpression = [
+  [36.6, -123.0], // SW — near Monterey / Point Sur
+  [37.9, -121.8], // NE — near Marin / Livermore
+];
 
 // Build a paw-print divIcon with the place photo embedded in the central pad
 function buildPawIcon(photoSrc: string, active = false): L.DivIcon {
   const size = active ? 52 : 40;
   const border = active ? "#E8B04A" : "#A8B368";
-  const shadow = active ? "0 4px 20px rgba(43,32,25,0.25)" : "0 2px 10px rgba(43,32,25,0.15)";
+  const shadow = active
+    ? "0 4px 20px rgba(43,32,25,0.25)"
+    : "0 2px 10px rgba(43,32,25,0.15)";
 
   return L.divIcon({
     className: "",
@@ -35,11 +33,10 @@ function buildPawIcon(photoSrc: string, active = false): L.DivIcon {
           <ellipse cx="22" cy="22" rx="10" ry="13" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
           <ellipse cx="50" cy="14" rx="10" ry="13" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
           <ellipse cx="78" cy="22" rx="10" ry="13" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
-          <!-- main pad clip path -->
+          <!-- main pad -->
           <clipPath id="pad-clip-${size}">
             <ellipse cx="50" cy="72" rx="30" ry="28"/>
           </clipPath>
-          <!-- main pad fill (shows photo through clip) -->
           <ellipse cx="50" cy="72" rx="30" ry="28" fill="#FBF7EF" stroke="${border}" stroke-width="3"/>
           <image href="${photoSrc}" x="20" y="44" width="60" height="56" clip-path="url(#pad-clip-${size})" preserveAspectRatio="xMidYMid slice"/>
         </svg>
@@ -49,11 +46,16 @@ function buildPawIcon(photoSrc: string, active = false): L.DivIcon {
   });
 }
 
-export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMapProps) {
+export default function ChesterMap({ places }: ChesterMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<L.Marker[]>([]);
-  const [activeIdx, setActiveIdx] = useState<number | null>(defaultActiveIndex);
+
+  // Derive featured index from data; fall back to 0
+  const featuredIdx = places.findIndex((p) => p.featured);
+  const defaultIdx = featuredIdx >= 0 ? featuredIdx : 0;
+
+  const [activeIdx, setActiveIdx] = useState<number | null>(defaultIdx);
   const [cardPos, setCardPos] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
@@ -68,24 +70,34 @@ export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMa
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
       {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
         subdomains: "abcd",
         maxZoom: 19,
       }
     ).addTo(map);
 
-    map.fitBounds(getBounds(places), { padding: [48, 48] });
+    // Warm the tile layer slightly
+    map.whenReady(() => {
+      const tilePanes = containerRef.current?.querySelectorAll<HTMLElement>(
+        ".leaflet-tile-pane"
+      );
+      tilePanes?.forEach((el) => {
+        el.style.filter = "sepia(0.1) saturate(1.1)";
+      });
+    });
+
+    map.fitBounds(BAY_AREA_BOUNDS, { padding: [32, 32] });
 
     places.forEach((place, i) => {
       const marker = L.marker(place.coords, {
-        icon: buildPawIcon(place.photo, i === defaultActiveIndex),
+        icon: buildPawIcon(place.photo, i === defaultIdx),
       }).addTo(map);
 
       marker.on("click", (e) => {
         const point = map.latLngToContainerPoint(e.latlng);
         setCardPos({ x: point.x, y: point.y });
         setActiveIdx(i);
-        // Update all marker icons
         markersRef.current.forEach((m, j) => {
           m.setIcon(buildPawIcon(places[j].photo, j === i));
         });
@@ -94,13 +106,13 @@ export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMa
       markersRef.current.push(marker);
     });
 
-    // Pre-open default pin position after map renders
+    // Pre-open featured pin
     map.whenReady(() => {
       setTimeout(() => {
-        const defaultPlace = places[defaultActiveIndex];
-        if (defaultPlace) {
+        const featured = places[defaultIdx];
+        if (featured) {
           const point = map.latLngToContainerPoint(
-            L.latLng(defaultPlace.coords[0], defaultPlace.coords[1])
+            L.latLng(featured.coords[0], featured.coords[1])
           );
           setCardPos({ x: point.x, y: point.y });
         }
@@ -108,7 +120,6 @@ export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMa
     });
 
     map.on("click", (e) => {
-      // Only close if clicking map background (not a marker)
       const target = e.originalEvent.target as HTMLElement;
       if (!target.closest("[data-leaflet-marker]")) {
         setActiveIdx(null);
@@ -135,10 +146,10 @@ export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMa
       <div
         ref={containerRef}
         className="w-full overflow-hidden rounded-2xl shadow-warm"
-        style={{ height: "clamp(360px, 45vw, 500px)" }}
+        style={{ height: "clamp(380px, 48vw, 520px)" }}
       />
 
-      {/* Floating card — honey border, warm shadow, rounded-2xl */}
+      {/* Floating card */}
       {activePlace && cardPos && (
         <div
           className="pointer-events-none absolute z-[1000] w-60 overflow-hidden rounded-2xl bg-cream shadow-warm"
@@ -158,7 +169,9 @@ export default function ChesterMap({ places, defaultActiveIndex = 0 }: ChesterMa
             />
           </div>
           <div className="p-3">
-            <p className="font-fraunces text-sm font-bold text-ink">{activePlace.name}</p>
+            <p className="font-fraunces text-sm font-bold text-ink">
+              {activePlace.name}
+            </p>
             <p className="font-inter text-xs text-muted-ink">{activePlace.region}</p>
             {activePlace.caption && (
               <p className="mt-1.5 font-fraunces text-xs italic leading-snug text-ink/65">
