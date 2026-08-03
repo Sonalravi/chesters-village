@@ -4,7 +4,7 @@ import FadeIn from "@/components/ui/fade-in";
 
 export default function JoinCTA() {
   return (
-    <section className="bg-cream py-24 md:py-36">
+    <section className="bg-lavender-wash py-24 md:py-36">
       <div className="mx-auto max-w-[1200px] px-6 text-center">
         <FadeIn>
           <div className="mb-6 flex items-center justify-center gap-3">
@@ -18,8 +18,8 @@ export default function JoinCTA() {
             Your pup&rsquo;s people are already here
           </h2>
           <p className="mx-auto mb-10 max-w-md font-inter text-base leading-relaxed text-muted-ink">
-            {site.memberCount}+ pet parents across San Francisco. Morning walks, vet recommendations,
-            and a group chat that actually feels like a neighborhood.
+            {site.memberCount}+ dog parents across San Francisco who show up. For the 2am ER text.
+            For the walk when you&rsquo;re wiped. For the neighborhood that finally knows your dog&rsquo;s name.
           </p>
           <a
             href={site.whatsappUrl}
@@ -27,7 +27,7 @@ export default function JoinCTA() {
             rel="noopener noreferrer"
             className="inline-block rounded-full bg-teal px-10 py-4 font-inter text-sm font-medium text-cream shadow-warm transition-all duration-300 ease-out hover:brightness-105"
           >
-            Join now
+            Join on WhatsApp
           </a>
         </FadeIn>
       </div>

@@ -12,7 +12,7 @@ export const communityStories: CommunityStory[] = [
   {
     id: "bean-rescue",
     title: "How the village saved Bean",
-    body: "When Bean's family had to travel unexpectedly, they posted in the group at 11pm. By 7am the next morning, three villagers had offered to split the care. Bean spent the week on a rotating schedule of walks, cuddles, and snacks he definitely wasn't supposed to have. He came home fatter and happier. The village came through the way villages do.",
+    body: "The night I lost Bean, I was dog-sitting for a friend. He slipped out through a gap in my patio while I wasn't watching. I panicked. I posted in the group. And then the village did what it does. For twelve hours, people I'd never asked walked their own neighborhoods with their phones out, calling his name. Someone spotted him. Posted a photo. His human came running, and Bean barked the second he heard his person's voice. I started Chester's Village. That night, the village held me back.",
     placeholder: false,
   },
   {
