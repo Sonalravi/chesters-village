@@ -1,6 +1,5 @@
-// /chester — Character portrait, long-form memoir structure.
-// 6 sections. Blob shapes behind hero and closing photos only.
-// Two squiggle separators: between §3→§4 and §5→§6.
+// /chester — Long-form memoir. 6 sections.
+// Blobs: hero only + closing text block. Squiggles: §3→§4 and §5→§6.
 
 import Image from "next/image";
 import { chesterPlaces } from "@/content/chester-places";
@@ -79,7 +78,7 @@ export default function ChesterPage() {
               </div>
               <div className="relative overflow-hidden rounded-2xl shadow-warm">
                 <Image
-                  src="/images/chester/story/relocation-from-blr-to-sf.jpg"
+                  src="/images/chester/story/hero-adult.jpg"
                   alt="Chester"
                   width={640}
                   height={480}
@@ -103,11 +102,20 @@ export default function ChesterPage() {
           </FadeIn>
 
           <div className="space-y-6 font-fraunces text-lg leading-relaxed text-ink/75">
-            {/* Paragraph 1 + right-aligned photo */}
+            {/* Paragraph 1 + baby Chester right-aligned */}
             <FadeIn>
               <div className="overflow-hidden">
-                <div className="float-right mb-3 ml-6 w-[240px] sm:w-[280px]">
-                  <PhotoPlaceholder label="baby Chester" className="aspect-[3/4]" />
+                <div className="float-right mb-3 ml-6 w-[220px] sm:w-[260px]">
+                  <div className="overflow-hidden rounded-2xl shadow-warm">
+                    <Image
+                      src="/images/chester/story/baby-01.jpg"
+                      alt="Chester as a puppy"
+                      width={260}
+                      height={347}
+                      className="w-full object-cover"
+                      sizes="260px"
+                    />
+                  </div>
                 </div>
                 <p>
                   [Placeholder — Sona will write this section.] Lorem ipsum dolor sit
@@ -134,18 +142,27 @@ export default function ChesterPage() {
               </p>
             </FadeIn>
 
-            {/* Paragraph 3 + left-aligned photo */}
+            {/* Paragraph 3 + airport photo left-aligned */}
             <FadeIn>
               <div className="overflow-hidden">
-                <div className="float-left mb-3 mr-6 w-[240px] sm:w-[280px]">
-                  <PhotoPlaceholder label="before we left" className="aspect-[3/4]" />
+                <div className="float-left mb-3 mr-6 w-[220px] sm:w-[260px]">
+                  <div className="overflow-hidden rounded-2xl shadow-warm">
+                    <Image
+                      src="/images/chester/story/airport.jpg"
+                      alt="Chester at the airport"
+                      width={260}
+                      height={347}
+                      className="w-full object-cover"
+                      sizes="260px"
+                    />
+                  </div>
                 </div>
                 <p>
                   [Placeholder.] Duis aute irure dolor in reprehenderit in voluptate
                   velit esse cillum dolore eu fugiat nulla pariatur. When the move
                   to San Francisco came, the question was never whether Chester
                   would adapt. The question was whether San Francisco was ready for
-                  Chester. He crossed an ocean and an continent and landed on the
+                  Chester. He crossed an ocean and a continent and landed on the
                   other side without missing a beat, without losing himself. The city
                   was new. He was not.
                 </p>
@@ -165,11 +182,11 @@ export default function ChesterPage() {
               </p>
             </FadeIn>
 
-            {/* Paragraph 5 + right-aligned photo */}
+            {/* Paragraph 5 + sf-together placeholder right-aligned */}
             <FadeIn>
               <div className="overflow-hidden">
-                <div className="float-right mb-3 ml-6 w-[240px] sm:w-[280px]">
-                  <PhotoPlaceholder label="arrived in SF" className="aspect-[3/4]" />
+                <div className="float-right mb-3 ml-6 w-[220px] sm:w-[260px]">
+                  <PhotoPlaceholder label="sf-together" className="aspect-[3/4]" />
                 </div>
                 <p>
                   [Placeholder.] Nemo enim ipsam voluptatem quia voluptas sit
@@ -239,15 +256,6 @@ export default function ChesterPage() {
               fugit sed quia consequuntur magni dolores.
             </p>
           </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="mt-12 flex justify-center">
-              <PhotoPlaceholder
-                label="photo goes here"
-                className="aspect-[4/3] w-full max-w-sm"
-              />
-            </div>
-          </FadeIn>
         </div>
       </section>
 
@@ -287,13 +295,13 @@ export default function ChesterPage() {
             </div>
           </FadeIn>
 
-          {/* Photo grid — 2 col mobile, 3 col desktop */}
+          {/* Photo grid — community photos. 2 col mobile, 3 col desktop */}
           <FadeIn delay={0.1}>
             <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
               <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
                 <Image
-                  src="/images/chester/shadow/with-shadow-1.jpg"
-                  alt="Chester with Shadow"
+                  src="/images/chester/story/community-01.JPG"
+                  alt="The village"
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 50vw, 200px"
@@ -301,25 +309,17 @@ export default function ChesterPage() {
               </div>
               <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
                 <Image
-                  src="/images/chester/shadow/with-shadow-2.jpg"
-                  alt="Chester with Shadow"
+                  src="/images/chester/story/community-02.jpg"
+                  alt="The village"
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 50vw, 200px"
                 />
               </div>
-              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-warm">
-                <Image
-                  src="/images/chester/shadow/with-shadow-3.JPEG"
-                  alt="Chester and Shadow"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 50vw, 200px"
-                />
-              </div>
-              <PhotoPlaceholder label="photo" className="aspect-square" />
-              <PhotoPlaceholder label="photo" className="aspect-square" />
-              <PhotoPlaceholder label="photo" className="aspect-square" />
+              <PhotoPlaceholder label="community-03" className="aspect-square" />
+              <PhotoPlaceholder label="community-04" className="aspect-square" />
+              <PhotoPlaceholder label="community-05" className="aspect-square" />
+              <PhotoPlaceholder label="community-06" className="aspect-square" />
             </div>
           </FadeIn>
         </div>
@@ -350,32 +350,22 @@ export default function ChesterPage() {
             </p>
           </FadeIn>
 
-          {/* Closing photo with honey blob */}
+          {/* Blob with italic closing line centered inside */}
           <FadeIn delay={0.1}>
-            <div className="relative mt-14">
+            <div
+              className="relative mt-14 flex items-center justify-center"
+              style={{ minHeight: "280px" }}
+            >
               <div
                 className="pointer-events-none absolute inset-0 flex items-center justify-center"
                 aria-hidden="true"
               >
-                <Blob variant={4} color="#E8B04A" size={480} rotation={-15} opacity={0.13} />
+                <Blob variant={4} color="#E8B04A" size={420} rotation={-15} opacity={0.22} />
               </div>
-              <div className="relative overflow-hidden rounded-2xl shadow-warm">
-                <Image
-                  src="/images/chester/shadow/with-shadow-3.JPEG"
-                  alt="Chester and Shadow"
-                  width={640}
-                  height={480}
-                  className="w-full object-cover"
-                  sizes="(max-width: 640px) 100vw, 640px"
-                />
-              </div>
+              <p className="relative text-center font-fraunces text-2xl italic leading-relaxed text-ink/65 sm:text-3xl">
+                Every dog deserves<br />what Chester had.
+              </p>
             </div>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <p className="mt-10 text-center font-fraunces text-xl italic text-ink/55">
-              Every dog deserves what Chester had.
-            </p>
           </FadeIn>
         </div>
       </section>
