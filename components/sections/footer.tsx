@@ -81,7 +81,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-6">
           <ChesterMark className="h-8 w-8 text-cream/20" />
           <p className="font-inter text-xs text-cream/30">
-            &copy; {new Date().getFullYear()} Chester&rsquo;s Village. Made with love for Chester.
+            &copy; {new Date().getFullYear()}{" "}Chester&rsquo;s Village. Made with love for Chester.
           </p>
         </div>
       </div>

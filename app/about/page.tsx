@@ -83,10 +83,12 @@ export default function AboutPage() {
             Founded in San Francisco, 2023
           </h2>
           <p className="mb-6 font-inter text-base leading-relaxed text-muted-ink">
-            Chester's Village was founded by Sonal Ravi after a decade of watching her dog Chester
+            Chester&rsquo;s Village was founded by Sonal Ravi after a decade of watching her dog Chester
             do what no app had managed to: get pet parents off their phones and talking to each other.
             The community started as a WhatsApp group. It grew from there, the way good things do,
-            quietly and by word of mouth.
+            quietly and by word of mouth. It became a formal community when Sona was the one in the ER,
+            alone, and neighbors she barely knew brought her food, walked Chester while she slept, and
+            reminded her she wasn&rsquo;t as alone as it felt.
           </p>
           <p className="font-inter text-base leading-relaxed text-muted-ink">
             Today the village has {site.memberCount}+ members across San Francisco, gathering for
