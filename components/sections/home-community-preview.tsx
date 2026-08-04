@@ -4,7 +4,7 @@ import FadeIn from "@/components/ui/fade-in";
 
 export default function HomeCommunityPreview() {
   return (
-    <section className="bg-[#F5EBD3] py-20 md:py-28">
+    <section className="bg-honey-wash py-20 md:py-28">
       <div className="mx-auto max-w-[1200px] px-6">
         <FadeIn>
           <div className="mb-12 flex items-end justify-between">

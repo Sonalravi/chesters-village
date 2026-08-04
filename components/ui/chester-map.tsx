@@ -10,12 +10,6 @@ interface ChesterMapProps {
   places: ChesterPlace[];
 }
 
-// Fixed bounds: SF Bay Area + coast from Monterey to Marin
-const BAY_AREA_BOUNDS: L.LatLngBoundsExpression = [
-  [36.6, -123.0], // SW — near Monterey / Point Sur
-  [37.9, -121.8], // NE — near Marin / Livermore
-];
-
 // Build a paw-print divIcon with the place photo embedded in the central pad
 function buildPawIcon(photoSrc: string, active = false): L.DivIcon {
   const size = active ? 52 : 40;
@@ -62,7 +56,8 @@ export default function ChesterMap({ places }: ChesterMapProps) {
     if (!containerRef.current || mapRef.current) return;
 
     const map = L.map(containerRef.current, {
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
+      dragging: true,
       zoomControl: false,
     });
     mapRef.current = map;
@@ -87,7 +82,7 @@ export default function ChesterMap({ places }: ChesterMapProps) {
       });
     });
 
-    map.fitBounds(BAY_AREA_BOUNDS, { padding: [32, 32] });
+    map.setView([37.7749, -122.4194], 13);
 
     places.forEach((place, i) => {
       const marker = L.marker(place.coords, {

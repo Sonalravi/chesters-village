@@ -8,7 +8,7 @@ const previewPups = [...pups].sort((a, b) => a.name.localeCompare(b.name)).slice
 
 export default function HomePupsPreview() {
   return (
-    <section className="bg-cream py-20 md:py-28">
+    <section className="bg-teal-wash py-20 md:py-28">
       <div className="mx-auto max-w-[1200px] px-6">
         <FadeIn>
           <div className="mb-12 flex items-end justify-between">

@@ -127,8 +127,36 @@
   }
 }
 
+@keyframes blob-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+  33%       { transform: translateY(-14px) rotate(2.5deg) scale(1.025); }
+  66%       { transform: translateY(8px) rotate(-1.5deg) scale(0.975); }
+}
+
 @layer utilities {
   .shadow-warm {
     box-shadow: var(--shadow-warm);
+  }
+
+  /* Section washes — radial gradient over cream base */
+  .bg-honey-wash {
+    background:
+      radial-gradient(ellipse 90% 65% at 50% 0%, rgba(232,176,74,0.18) 0%, transparent 72%),
+      var(--cv-cream);
+  }
+  .bg-teal-wash {
+    background:
+      radial-gradient(ellipse 90% 65% at 50% 0%, rgba(122,175,168,0.16) 0%, transparent 72%),
+      var(--cv-cream);
+  }
+  .bg-lavender-wash {
+    background:
+      radial-gradient(ellipse 90% 65% at 50% 0%, rgba(201,175,211,0.20) 0%, transparent 72%),
+      var(--cv-cream);
+  }
+
+  /* Floating blob */
+  .animate-blob-float {
+    animation: blob-float 9s ease-in-out infinite;
   }
 }
